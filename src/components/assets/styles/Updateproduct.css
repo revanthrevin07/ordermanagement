@@ -81,3 +81,11 @@
   margin: 0px;
   object-fit: contain;
 }
+
+.delete-btn-align{
+      display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+            margin: 40px 0px 20px 0px;
+}

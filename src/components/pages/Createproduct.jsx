@@ -109,9 +109,12 @@ const Createproduct = ({ activeSegment, setActiveSegment }) => {
       const responseBody = await productResponse.json();
 
       if (productResponse.ok) {
-        toast.success('Products added successfully', {
-          position: "top-center"
-        })
+       setTimeout(()=>{
+         toast.success('Products added successfully', {
+           position: "top-center",
+           autoClose: 1000,
+         })
+       })
         setTimeout(() => {
           navigate("/products");
         }, 1000);

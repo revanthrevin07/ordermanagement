@@ -76,10 +76,12 @@ const UpdateProduct = ({ activeSegment, setActiveSegment }) => {
                 }
             );
             if (response.ok) {
-                toast.success('Product updated successfully', { position: 'top-center' });
+                setTimeout(()=>{
+                    toast.success('Product updated successfully', { position: 'top-center',autoClose:1000 });
+                })
                 setTimeout(() => {
                     navigate('/products/update', { state: { product: productData } });
-                }, 2000);
+                }, 1000);
             } else {
                 toast.error('Failed to update product.');
             }

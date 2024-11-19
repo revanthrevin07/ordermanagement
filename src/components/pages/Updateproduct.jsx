@@ -5,7 +5,12 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { IoMdArrowDropdown } from "react-icons/io";
 import CustomNavbar from '../common/Navbar';
 import Sidebar from './Sidebar';
-import { useNavigate, useLocation, useMemo } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 
 const Updateproduct = ({ activeSegment, setActiveSegment }) => {
     const location = useLocation();
@@ -13,7 +18,22 @@ const Updateproduct = ({ activeSegment, setActiveSegment }) => {
 
     const product = location.state?.product || {};
     const [imageUrl, setImageUrl] = useState(null);
-    
+
+    const [open, setOpen] = useState(false);
+
+
+    const style = {
+        position: 'absolute',
+        top: '30%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #0e0e0e00',
+        boxShadow: 12,
+        textAlign:'center',
+        p: 4,
+    };
 
     useEffect(() => {
         if (product?.imageId) {
@@ -23,8 +43,14 @@ const Updateproduct = ({ activeSegment, setActiveSegment }) => {
         }
     }, [product]);
 
+
     const deleteHandle = async (e) => {
         e.preventDefault();
+        setOpen(true)        
+    };
+
+    const handleDelete = async()=>{
+        setOpen(false);
         const token = localStorage.getItem('token');
 
         const productData = {
@@ -49,7 +75,10 @@ const Updateproduct = ({ activeSegment, setActiveSegment }) => {
         } catch (error) {
             console.error('Error:', error);
         }
-    };
+    }
+
+    const handleClose = () => setOpen(false);
+
 
     const onBack = () => {
         navigate('/products');
@@ -215,6 +244,25 @@ const Updateproduct = ({ activeSegment, setActiveSegment }) => {
                     </div>
                 </div>
             </div>
+            <Modal
+                keepMounted
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="keep-mounted-modal-title"
+                aria-describedby="keep-mounted-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
+                        Are you sure you want to delete?
+                    </Typography>
+                    <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
+                        <div className='delete-btn-align'>
+                            <Button onClick={handleDelete} variant="success">Yes</Button>
+                            <Button onClick={handleClose} variant="secondary">No</Button>
+                        </div>
+                    </Typography>
+                </Box>
+            </Modal>
         </section>
     );
 };
